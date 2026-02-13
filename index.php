@@ -1,30 +1,108 @@
-<?php
-session_start();
-header('Content-Type: text/html; charset=UTF-8');
-date_default_timezone_set("Brazil/East");
-require_once('_config.php');
-define('TOKEN2', md5($config['token1'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']));
-define("SERVIDOR", $config['SERVIDOR']);
-define("USUARIO", $config['USUARIO']);
-define("SENHA", $config['SENHA']);
-define("BANCO", $config['BANCO']);
-$config_dominio = (isset($_SERVER['HTTPS']) ? "https" : "http")."://" .$_SERVER['HTTP_HOST']."/";
-if($config['PASTA']){
-	$config_dominio = $config_dominio.$config['PASTA']."/";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sua Rádio</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#000;
+color:#fff;
+overflow-x:hidden;
 }
-define("DOMINIO", $config_dominio);
-define("PASTA_CLIENTE", $config_dominio."sistema/arquivos/");
-define("AUTOR", "mrcomerciodigital.com.br");
-define("CONTROLLERS", "controllers/"); 
-define("VIEWS", "views/");
-define("MODELS", "models/");
-define("LAYOUT", DOMINIO.VIEWS);
-define("recaptcha_key", $config['recaptcha_key']);
-define("recaptcha_secret", $config['recaptcha_secret']);
-require_once('system/system.php');
-require_once('system/mysql.php');
-require_once('system/controller.php');
-require_once('system/model.php');
-function auto_carregador($arquivo){ if(file_exists(MODELS.$arquivo.".php")){ require_once(MODELS.$arquivo.".php"); } else { echo "Erro: Um arquivo importante do sistema não foi encontrado ($arquivo)!"; exit; }} spl_autoload_register("auto_carregador");
-$start = new system();
-$start->run();
+
+/* Vídeo de fundo */
+video{
+position:fixed;
+right:0;
+bottom:0;
+min-width:100%;
+min-height:100%;
+z-index:-2;
+object-fit:cover;
+}
+
+/* Overlay escuro */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+z-index:-1;
+}
+
+/* Logo central */
+.logo{
+position:absolute;
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+font-size:40px;
+font-weight:bold;
+}
+
+/* Rodapé */
+footer{
+position:fixed;
+bottom:0;
+width:100%;
+text-align:center;
+padding:5px;
+font-size:12px;
+background:rgba(0,0,0,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Vídeo de fundo -->
+<video autoplay muted loop>
+<source src="video.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<div class="logo">
+SUA RÁDIO ONLINE
+</div>
+
+<!-- PLAYER PEQUENO FIXO -->
+<div style="
+position:fixed;
+bottom:8px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+width:170px;
+height:45px;
+overflow:hidden;
+border-radius:8px;
+">
+
+<iframe 
+src="COLE_AQUI_O_LINK_EMBED_DA_CASTER"
+style="
+width:100%;
+height:120px;
+transform:scale(0.5);
+transform-origin:top center;
+border:0;
+">
+</iframe>
+
+</div>
+
+<footer>
+© 2026 - Sua Rádio Online
+</footer>
+
+</body>
+</html>
